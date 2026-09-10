@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eleanor & James | October 18, 2026</title>
+    <title>Elizabeth & Alexander | October 18, 2026</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -23,8 +23,8 @@
                         'stone-light': '#F5F2EB'
                     },
                     fontFamily: {
-                        'serif': ['Cormorant Garamond', 'serif'],
-                        'sans': ['Montserrat', 'sans-serif'],
+                        'serif': ['Playfair Display', 'serif'],
+                        'sans': ['Inter', 'sans-serif'],
                     }
                 }
             }
@@ -33,12 +33,12 @@
 
     <style>
         body {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Inter', sans-serif;
             background-color: #FDFBF7;
             color: #0A3A2A;
         }
         .font-serif {
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Playfair Display', serif;
         }
         
         /* Animations */
@@ -85,15 +85,76 @@
             width: 60px;
             background: #C5A059;
         }
+
+        /* Music Button */
+        .music-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 50;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #C5A059 0%, #0A3A2A 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(10, 58, 42, 0.3);
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+        .music-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(10, 58, 42, 0.4);
+        }
+        .music-btn.playing {
+            animation: spin 4s linear infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Modern Card Hover */
+        .modern-card {
+            transition: all 0.3s ease;
+        }
+        .modern-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(10, 58, 42, 0.1);
+        }
+
+        /* Glass Effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+        }
     </style>
 </head>
 <body class="antialiased">
 
+    <!-- Audio Element -->
+    <audio id="bg-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Music Button -->
+    <div class="music-btn" id="music-btn" onclick="toggleMusic()">
+        <svg id="music-icon" class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z"/>
+        </svg>
+    </div>
+
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 bg-cream/90 backdrop-blur-md border-b border-soft-gold/20">
+    <nav class="fixed top-0 w-full z-50 glass border-b border-soft-gold/20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                <a href="#home" class="font-serif text-2xl text-deep-green tracking-wider">E <span class="text-soft-gold">&</span> J</a>
+                <a href="#home" class="font-serif text-2xl text-deep-green tracking-wider">E <span class="text-soft-gold">&</span> A</a>
                 <div class="hidden md:flex space-x-8 text-xs tracking-[0.2em] uppercase text-deep-green/80">
                     <a href="#story" class="hover:text-soft-gold transition">Our Story</a>
                     <a href="#schedule" class="hover:text-soft-gold transition">Schedule</a>
@@ -107,24 +168,16 @@
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="min-h-screen flex flex-col items-center justify-center text-center px-4 relative overflow-hidden pt-16">
-        <!-- Decorative Background Elements -->
-        <div class="absolute inset-0 opacity-5 pointer-events-none">
-            <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                <path d="M0,0 L100,100 L0,100 Z" fill="#0A3A2A" opacity="0.1"/>
-                <path d="M100,0 L0,100 L100,100 Z" fill="#C5A059" opacity="0.1"/>
-            </svg>
-        </div>
-
+    <section id="home" class="min-h-screen flex flex-col items-center justify-center text-center px-4 relative overflow-hidden pt-16 bg-gradient-to-br from-cream via-white to-stone-light">
         <div class="relative z-10 max-w-4xl mx-auto">
             <p class="text-xs md:text-sm tracking-[0.4em] text-deep-green/70 uppercase mb-6 fade-in-up">Together with their families</p>
             
             <h1 class="font-serif text-6xl md:text-9xl text-deep-green mb-2 leading-tight fade-in-up">
-                Eleanor
+                Elizabeth
             </h1>
             <p class="font-serif text-4xl md:text-6xl text-soft-gold italic my-2 fade-in-up">&</p>
             <h1 class="font-serif text-6xl md:text-9xl text-deep-green mb-8 leading-tight fade-in-up">
-                James
+                Alexander
             </h1>
             
             <div class="divider mb-8 fade-in-up">
@@ -137,19 +190,19 @@
 
             <!-- Countdown Timer -->
             <div id="countdown" class="grid grid-cols-4 gap-4 md:gap-8 max-w-lg mx-auto fade-in-up">
-                <div class="flex flex-col items-center">
+                <div class="flex flex-col items-center bg-white/50 p-4 rounded-lg backdrop-blur-sm">
                     <span id="days" class="font-serif text-4xl md:text-5xl text-soft-gold">00</span>
                     <span class="text-[10px] md:text-xs tracking-widest uppercase text-deep-green/60 mt-2">Days</span>
                 </div>
-                <div class="flex flex-col items-center">
+                <div class="flex flex-col items-center bg-white/50 p-4 rounded-lg backdrop-blur-sm">
                     <span id="hours" class="font-serif text-4xl md:text-5xl text-soft-gold">00</span>
                     <span class="text-[10px] md:text-xs tracking-widest uppercase text-deep-green/60 mt-2">Hours</span>
                 </div>
-                <div class="flex flex-col items-center">
+                <div class="flex flex-col items-center bg-white/50 p-4 rounded-lg backdrop-blur-sm">
                     <span id="minutes" class="font-serif text-4xl md:text-5xl text-soft-gold">00</span>
                     <span class="text-[10px] md:text-xs tracking-widest uppercase text-deep-green/60 mt-2">Minutes</span>
                 </div>
-                <div class="flex flex-col items-center">
+                <div class="flex flex-col items-center bg-white/50 p-4 rounded-lg backdrop-blur-sm">
                     <span id="seconds" class="font-serif text-4xl md:text-5xl text-soft-gold">00</span>
                     <span class="text-[10px] md:text-xs tracking-widest uppercase text-deep-green/60 mt-2">Seconds</span>
                 </div>
@@ -163,7 +216,7 @@
     </section>
 
     <!-- Our Story Section -->
-    <section id="story" class="py-24 px-4 bg-stone-light">
+    <section id="story" class="py-24 px-4 bg-white">
         <div class="max-w-5xl mx-auto">
             <div class="text-center mb-16 fade-in-up">
                 <h2 class="font-serif text-4xl md:text-5xl text-deep-green mb-4">Our Story</h2>
@@ -172,9 +225,9 @@
                 </div>
             </div>
 
-            <div class="grid md:grid-cols-3 gap-12 md:gap-8">
+            <div class="grid md:grid-cols-3 gap-8">
                 <!-- Story 1 -->
-                <div class="text-center fade-in-up">
+                <div class="modern-card bg-stone-light p-8 rounded-2xl text-center fade-in-up">
                     <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-soft-gold/10 flex items-center justify-center">
                         <span class="font-serif text-2xl text-soft-gold">I</span>
                     </div>
@@ -184,17 +237,17 @@
                     </p>
                 </div>
                 <!-- Story 2 -->
-                <div class="text-center fade-in-up">
+                <div class="modern-card bg-stone-light p-8 rounded-2xl text-center fade-in-up">
                     <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-soft-gold/10 flex items-center justify-center">
                         <span class="font-serif text-2xl text-soft-gold">II</span>
                     </div>
                     <h3 class="font-serif text-2xl text-deep-green mb-3">The Proposal</h3>
                     <p class="text-deep-green/70 text-sm leading-relaxed">
-                        Three years later, amidst the rolling hills of Tuscany, James got down on one knee. With the sunset painting the sky in shades of gold, Eleanor said "Yes" before he even finished asking.
+                        Three years later, amidst the rolling hills of Tuscany, Alexander got down on one knee. With the sunset painting the sky in shades of gold, Elizabeth said "Yes" before he even finished asking.
                     </p>
                 </div>
                 <!-- Story 3 -->
-                <div class="text-center fade-in-up">
+                <div class="modern-card bg-stone-light p-8 rounded-2xl text-center fade-in-up">
                     <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-soft-gold/10 flex items-center justify-center">
                         <span class="font-serif text-2xl text-soft-gold">III</span>
                     </div>
@@ -209,7 +262,6 @@
 
     <!-- Event Schedule Section -->
     <section id="schedule" class="py-24 px-4 bg-deep-green text-cream relative overflow-hidden">
-        <!-- Subtle pattern overlay -->
         <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: radial-gradient(#C5A059 1px, transparent 1px); background-size: 20px 20px;"></div>
         
         <div class="max-w-4xl mx-auto relative z-10">
@@ -218,50 +270,56 @@
                 <p class="text-soft-gold tracking-widest text-sm uppercase">Saturday, October 18, 2026</p>
             </div>
 
-            <div class="space-y-12">
+            <div class="space-y-8">
                 <!-- Ceremony -->
-                <div class="flex flex-col md:flex-row items-center gap-6 fade-in-up">
-                    <div class="md:w-1/3 text-center md:text-right">
-                        <p class="font-serif text-3xl text-soft-gold">4:00 PM</p>
-                        <p class="text-xs tracking-widest uppercase text-cream/60 mt-1">The Vows</p>
-                    </div>
-                    <div class="hidden md:block w-px h-16 bg-soft-gold/30"></div>
-                    <div class="md:w-2/3 text-center md:text-left">
-                        <h3 class="font-serif text-2xl text-cream mb-2">Wedding Ceremony</h3>
-                        <p class="text-cream/70 text-sm">Join us under the grand oak trees as we exchange our vows and begin our new life together.</p>
+                <div class="modern-card bg-white/5 backdrop-blur-sm p-6 rounded-2xl border border-soft-gold/20 fade-in-up">
+                    <div class="flex flex-col md:flex-row items-center gap-6">
+                        <div class="md:w-1/3 text-center md:text-right">
+                            <p class="font-serif text-3xl text-soft-gold">4:00 PM</p>
+                            <p class="text-xs tracking-widest uppercase text-cream/60 mt-1">The Vows</p>
+                        </div>
+                        <div class="hidden md:block w-px h-16 bg-soft-gold/30"></div>
+                        <div class="md:w-2/3 text-center md:text-left">
+                            <h3 class="font-serif text-2xl text-cream mb-2">Wedding Ceremony</h3>
+                            <p class="text-cream/70 text-sm">Join us under the grand oak trees as we exchange our vows and begin our new life together.</p>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Cocktail -->
-                <div class="flex flex-col md:flex-row items-center gap-6 fade-in-up">
-                    <div class="md:w-1/3 text-center md:text-right">
-                        <p class="font-serif text-3xl text-soft-gold">5:00 PM</p>
-                        <p class="text-xs tracking-widest uppercase text-cream/60 mt-1">Drinks & Bites</p>
-                    </div>
-                    <div class="hidden md:block w-px h-16 bg-soft-gold/30"></div>
-                    <div class="md:w-2/3 text-center md:text-left">
-                        <h3 class="font-serif text-2xl text-cream mb-2">Cocktail Hour</h3>
-                        <p class="text-cream/70 text-sm">Enjoy artisanal cocktails, fine wines, and hors d'oeuvres in the garden courtyard while we take photos.</p>
+                <div class="modern-card bg-white/5 backdrop-blur-sm p-6 rounded-2xl border border-soft-gold/20 fade-in-up">
+                    <div class="flex flex-col md:flex-row items-center gap-6">
+                        <div class="md:w-1/3 text-center md:text-right">
+                            <p class="font-serif text-3xl text-soft-gold">5:00 PM</p>
+                            <p class="text-xs tracking-widest uppercase text-cream/60 mt-1">Drinks & Bites</p>
+                        </div>
+                        <div class="hidden md:block w-px h-16 bg-soft-gold/30"></div>
+                        <div class="md:w-2/3 text-center md:text-left">
+                            <h3 class="font-serif text-2xl text-cream mb-2">Cocktail Hour</h3>
+                            <p class="text-cream/70 text-sm">Enjoy artisanal cocktails, fine wines, and hors d'oeuvres in the garden courtyard while we take photos.</p>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Reception -->
-                <div class="flex flex-col md:flex-row items-center gap-6 fade-in-up">
-                    <div class="md:w-1/3 text-center md:text-right">
-                        <p class="font-serif text-3xl text-soft-gold">6:30 PM</p>
-                        <p class="text-xs tracking-widest uppercase text-cream/60 mt-1">Dinner & Dance</p>
-                    </div>
-                    <div class="hidden md:block w-px h-16 bg-soft-gold/30"></div>
-                    <div class="md:w-2/3 text-center md:text-left">
-                        <h3 class="font-serif text-2xl text-cream mb-2">Reception & Dancing</h3>
-                        <p class="text-cream/70 text-sm">A plated dinner, heartfelt toasts, and an evening of dancing under the stars in the Grand Conservatory.</p>
+                <div class="modern-card bg-white/5 backdrop-blur-sm p-6 rounded-2xl border border-soft-gold/20 fade-in-up">
+                    <div class="flex flex-col md:flex-row items-center gap-6">
+                        <div class="md:w-1/3 text-center md:text-right">
+                            <p class="font-serif text-3xl text-soft-gold">6:30 PM</p>
+                            <p class="text-xs tracking-widest uppercase text-cream/60 mt-1">Dinner & Dance</p>
+                        </div>
+                        <div class="hidden md:block w-px h-16 bg-soft-gold/30"></div>
+                        <div class="md:w-2/3 text-center md:text-left">
+                            <h3 class="font-serif text-2xl text-cream mb-2">Reception & Dancing</h3>
+                            <p class="text-cream/70 text-sm">A plated dinner, heartfelt toasts, and an evening of dancing under the stars in the Grand Conservatory.</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Travel & Venue Section -->
+    <!-- Travel & Venue Section with Maps -->
     <section id="travel" class="py-24 px-4 bg-cream">
         <div class="max-w-6xl mx-auto">
             <div class="text-center mb-16 fade-in-up">
@@ -273,42 +331,62 @@
 
             <div class="grid md:grid-cols-2 gap-8 mb-16">
                 <!-- Ceremony Venue -->
-                <div class="bg-white p-8 shadow-sm border border-soft-gold/20 fade-in-up">
-                    <div class="flex items-center gap-3 mb-4">
-                        <svg class="w-6 h-6 text-soft-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                        <h3 class="font-serif text-2xl text-deep-green">Ceremony</h3>
+                <div class="modern-card bg-white rounded-2xl overflow-hidden shadow-lg fade-in-up">
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <svg class="w-6 h-6 text-soft-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            <h3 class="font-serif text-2xl text-deep-green">Ceremony</h3>
+                        </div>
+                        <p class="font-serif text-xl text-deep-green mb-2">The Grand Conservatory</p>
+                        <p class="text-deep-green/70 text-sm mb-4">123 Rosewood Lane, Willow Creek, CA 90210</p>
+                        <a href="https://maps.google.com/?q=The+Grand+Conservatory+Willow+Creek+CA" target="_blank" class="inline-flex items-center gap-2 text-xs tracking-widest uppercase text-soft-gold border-b border-soft-gold pb-1 hover:text-deep-green hover:border-deep-green transition">
+                            Get Directions
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </a>
                     </div>
-                    <p class="font-serif text-xl text-deep-green mb-2">The Grand Conservatory</p>
-                    <p class="text-deep-green/70 text-sm mb-6">123 Rosewood Lane, Willow Creek, CA 90210</p>
-                    <a href="https://maps.google.com" target="_blank" class="inline-flex items-center gap-2 text-xs tracking-widest uppercase text-soft-gold border-b border-soft-gold pb-1 hover:text-deep-green hover:border-deep-green transition">
-                        Get Directions
-                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                    </a>
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3305.715223150696!2d-118.24532668498677!3d34.05223418061296!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c648fa1d4803%3A0xdec27bf11f9fd336!2sLos%20Angeles%2C%20CA!5e0!3m2!1sen!2sus!4v1625686800000!5m2!1sen!2sus" 
+                        width="100%" 
+                        height="250" 
+                        style="border:0; filter: grayscale(20%) sepia(10%);" 
+                        allowfullscreen="" 
+                        loading="lazy">
+                    </iframe>
                 </div>
 
                 <!-- Reception Venue -->
-                <div class="bg-white p-8 shadow-sm border border-soft-gold/20 fade-in-up">
-                    <div class="flex items-center gap-3 mb-4">
-                        <svg class="w-6 h-6 text-soft-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-                        <h3 class="font-serif text-2xl text-deep-green">Reception</h3>
+                <div class="modern-card bg-white rounded-2xl overflow-hidden shadow-lg fade-in-up">
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <svg class="w-6 h-6 text-soft-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                            <h3 class="font-serif text-2xl text-deep-green">Reception</h3>
+                        </div>
+                        <p class="font-serif text-xl text-deep-green mb-2">The Estate at Willow Creek</p>
+                        <p class="text-deep-green/70 text-sm mb-4">456 Oakwood Drive, Willow Creek, CA 90210</p>
+                        <a href="https://maps.google.com/?q=The+Estate+Willow+Creek+CA" target="_blank" class="inline-flex items-center gap-2 text-xs tracking-widest uppercase text-soft-gold border-b border-soft-gold pb-1 hover:text-deep-green hover:border-deep-green transition">
+                            Get Directions
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </a>
                     </div>
-                    <p class="font-serif text-xl text-deep-green mb-2">The Estate at Willow Creek</p>
-                    <p class="text-deep-green/70 text-sm mb-6">456 Oakwood Drive, Willow Creek, CA 90210</p>
-                    <a href="https://maps.google.com" target="_blank" class="inline-flex items-center gap-2 text-xs tracking-widest uppercase text-soft-gold border-b border-soft-gold pb-1 hover:text-deep-green hover:border-deep-green transition">
-                        Get Directions
-                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                    </a>
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3305.715223150696!2d-118.24532668498677!3d34.05223418061296!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c648fa1d4803%3A0xdec27bf11f9fd336!2sLos%20Angeles%2C%20CA!5e0!3m2!1sen!2sus!4v1625686800000!5m2!1sen!2sus" 
+                        width="100%" 
+                        height="250" 
+                        style="border:0; filter: grayscale(20%) sepia(10%);" 
+                        allowfullscreen="" 
+                        loading="lazy">
+                    </iframe>
                 </div>
             </div>
 
             <!-- Accommodations -->
-            <div class="bg-stone-light p-8 md:p-12 text-center border border-soft-gold/20 fade-in-up">
+            <div class="modern-card bg-stone-light p-8 md:p-12 text-center border border-soft-gold/20 rounded-2xl fade-in-up">
                 <h3 class="font-serif text-2xl md:text-3xl text-deep-green mb-4">Accommodations</h3>
                 <p class="text-deep-green/70 max-w-2xl mx-auto mb-6">
                     A room block has been reserved for our out-of-town guests at <span class="text-deep-green font-medium">The Willow Creek Inn</span>. 
-                    Please use the code <span class="text-soft-gold font-semibold tracking-wider">ELEANORJAMES26</span> when booking to receive our special rate.
+                    Please use the code <span class="text-soft-gold font-semibold tracking-wider">ELIZABETHALEX26</span> when booking to receive our special rate.
                 </p>
-                <a href="#" class="inline-block bg-deep-green text-cream px-8 py-3 text-xs tracking-[0.2em] uppercase hover:bg-soft-gold transition duration-300">
+                <a href="#" class="inline-block bg-deep-green text-cream px-8 py-3 text-xs tracking-[0.2em] uppercase hover:bg-soft-gold transition duration-300 rounded-full">
                     Book Your Stay
                 </a>
             </div>
@@ -326,7 +404,7 @@
                 <p class="text-deep-green/70">Kindly respond by the 1st of August, 2026</p>
             </div>
 
-            <form id="rsvp-form" class="space-y-8 fade-in-up">
+            <form id="rsvp-form" class="space-y-8 fade-in-up bg-white p-8 md:p-12 rounded-2xl shadow-lg">
                 <!-- Name -->
                 <div>
                     <label class="block text-xs tracking-[0.2em] uppercase text-deep-green/70 mb-2">Full Name</label>
@@ -367,7 +445,7 @@
 
                 <!-- Submit -->
                 <div class="pt-4 text-center">
-                    <button type="submit" class="w-full md:w-auto bg-deep-green text-cream px-12 py-4 text-xs tracking-[0.3em] uppercase hover:bg-soft-gold transition duration-300 shadow-lg hover:shadow-xl">
+                    <button type="submit" class="w-full md:w-auto bg-deep-green text-cream px-12 py-4 text-xs tracking-[0.3em] uppercase hover:bg-soft-gold transition duration-300 shadow-lg hover:shadow-xl rounded-full">
                         Send RSVP
                     </button>
                 </div>
@@ -385,7 +463,7 @@
     </section>
 
     <!-- Registry Section -->
-    <section id="registry" class="py-24 px-4 bg-cream">
+    <section id="registry" class="py-24 px-4 bg-white">
         <div class="max-w-3xl mx-auto text-center">
             <div class="fade-in-up">
                 <h2 class="font-serif text-4xl md:text-5xl text-deep-green mb-4">Registry</h2>
@@ -398,10 +476,10 @@
             </div>
 
             <div class="flex flex-col sm:flex-row gap-4 justify-center fade-in-up">
-                <a href="#" class="flex-1 max-w-xs mx-auto sm:mx-0 bg-white border border-soft-gold/30 text-deep-green px-8 py-4 text-xs tracking-[0.2em] uppercase hover:bg-deep-green hover:text-cream transition duration-300 shadow-sm">
+                <a href="#" class="flex-1 max-w-xs mx-auto sm:mx-0 bg-deep-green text-cream px-8 py-4 text-xs tracking-[0.2em] uppercase hover:bg-soft-gold transition duration-300 rounded-full shadow-lg">
                     View Our Registry
                 </a>
-                <a href="#" class="flex-1 max-w-xs mx-auto sm:mx-0 bg-white border border-soft-gold/30 text-deep-green px-8 py-4 text-xs tracking-[0.2em] uppercase hover:bg-deep-green hover:text-cream transition duration-300 shadow-sm">
+                <a href="#" class="flex-1 max-w-xs mx-auto sm:mx-0 bg-white border border-deep-green text-deep-green px-8 py-4 text-xs tracking-[0.2em] uppercase hover:bg-deep-green hover:text-cream transition duration-300 rounded-full shadow-lg">
                     Honeymoon Fund
                 </a>
             </div>
@@ -411,7 +489,7 @@
     <!-- Footer -->
     <footer class="bg-deep-green text-cream py-16 px-4 text-center">
         <div class="max-w-4xl mx-auto">
-            <h2 class="font-serif text-4xl md:text-5xl text-soft-gold mb-4">Eleanor & James</h2>
+            <h2 class="font-serif text-4xl md:text-5xl text-soft-gold mb-4">Elizabeth & Alexander</h2>
             <p class="text-cream/60 text-sm tracking-widest uppercase mb-8">October 18, 2026 &bull; Willow Creek, CA</p>
             
             <div class="divider mb-8">
@@ -419,7 +497,7 @@
             </div>
 
             <p class="text-cream/50 text-xs tracking-widest uppercase">Share your photos with us</p>
-            <p class="font-serif text-2xl text-soft-gold mt-2 mb-8">#EleanorAndJames2026</p>
+            <p class="font-serif text-2xl text-soft-gold mt-2 mb-8">#ElizabethAndAlexander2026</p>
             
             <p class="text-cream/30 text-xs">Made with love &bull; 2026</p>
         </div>
@@ -427,6 +505,22 @@
 
     <!-- JavaScript -->
     <script>
+        // --- Music Player ---
+        const musicBtn = document.getElementById('music-btn');
+        const bgMusic = document.getElementById('bg-music');
+        let isPlaying = false;
+
+        function toggleMusic() {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicBtn.classList.remove('playing');
+            } else {
+                bgMusic.play();
+                musicBtn.classList.add('playing');
+            }
+            isPlaying = !isPlaying;
+        }
+
         // --- Countdown Timer ---
         const weddingDate = new Date("October 18, 2026 16:00:00").getTime();
         
